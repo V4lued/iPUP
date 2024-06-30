@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>iPUP</title>
+        <link rel="icon" type="image/png" href="public/iPUP_logo.png" />
+        <link rel="stylesheet" href="./style.css" />
+        <link
+            href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+        />
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+            integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+            crossorigin=""
+        />
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css"
+        />
+        <script
+            src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""
+        ></script>
+
+        <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+        <script
+            src="https://kit.fontawesome.com/ba9652e19d.js"
+            crossorigin="anonymous"
+        ></script>
+        <script src="https://cdn.jsdelivr.net/npm/smoothscroll-polyfill/dist/smoothscroll.min.js"></script>
+    </head>
+
+    <body>
+        <div class="loader">
+            <div class="ring"></div>
+            <span>loading...</span>
+        </div>
+
+        <div class="sidebar">
+            <div class="top">
+                <div class="logo">
+                    <img
+                        src="./public/iPUP_logo.png"
+                        alt="PUP Logo"
+                        class="pup_logo"
+                    />
+                    <span>iPUP</span>
+                </div>
+                <i class="bx bx-menu" id="btn"></i>
+            </div>
+            <ul>
+                <li>
+                    <a href="#">
+                        <i class="bx bxs-home"></i>
+                        <span class="nav-item">Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" id="searchbtn">
+                        <i class="bx bx-search"></i>
+                        <span class="nav-item">Search</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" id="bookmarkbtn">
+                        <i class="bx bxs-bookmarks"></i>
+                        <span class="nav-item">Favorites</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" id="aboutusbtn">
+                        <i class="fa-regular fa-circle-question"></i>
+                        <span class="nav-item">About Us</span>
+                    </a>
+                </li>
+            </ul>
+            <ul>
+                <li id="dark-mode-btn">
+                    <a href="#" id="dark-mode-toggle">
+                        <i class="fa-solid fa-circle-half-stroke"></i>
+                        <span class="nav-item">Light/Dark Mode</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="search-box">
+            <div class="row">
+                <input
+                    type="text"
+                    id="input-box"
+                    placeholder="Search anything ..."
+                    autocomplete="off"
+                />
+                <button><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+            <div class="result-box"></div>
+        </div>
+
+        <div class="recenter" id="recenterButton">
+            <i class="fa-solid fa-location-crosshairs"></i>
+        </div>
+
+        <div class="maps" id="mapToggle">
+            <i class="fa-regular fa-map" id="regular-map"></i>
+            <i class="fa-solid fa-map" id="two-dim" style="display: none"></i>
+        </div>
+
+        <div class="favorite-container">
+            <h1>Favorites</h1>
+            <button class="clear">Clear all</button>
+            <ul id="favoritesList"></ul>
+        </div>
+
+        <div id="map"></div>
+
+        <div class="content-container" id="NorthWing-container">
+            <div class="content-header">
+                <i class="fa-solid fa-bookmark" id="NorthWing"></i>
+                <i class="fa-regular fa-bookmark"></i>
+                <i class="fa-solid fa-x" id="closeBtn"></i>
+            </div>
+            <div class="main-content">
+                <img
+                    src="https://drive.google.com/thumbnail?id=1MpwqCqHBCY6KUq1KAsK6sjokNSw6AGq_"
+                />
+                <h2>North Wing</h2>
+                <p>
+                    - Currently under development, the North Wing of PUP Main
+                    Building is undergoing a significant transformation, from
+                    housing administrative offices to becoming a student-centric
+                    space. Expected completion by end of 2024, it will feature
+                    open ground floors, larger classrooms, elevators, and
+                    multi-purpose rooms, enhancing the learning environment and
+                    showcasing the institution's commitment to innovation.
+                </p>
+            </div>
+        </div>
+        <div class="content-container" id="WestWing-container">
+            <div class="content-header">
+                <i class="fa-solid fa-bookmark" id="WestWing"></i>
+                <i class="fa-regular fa-bookmark"></i>
+                <i class="fa-solid fa-x" id="closeBtn"></i>
+            </div>
+            <div class="main-content">
+                <img
+                    src="https://drive.google.com/thumbnail?id=1zdrcMtZI47b8-LNaNkMx9AMDxi3QW4T_"
+                />
+                <h2>West Wing</h2>
+                <p>
+                    - The PUP West Wing is a modern building located on the
+                    western side of the university campus. It stands as a
+                    prominent structure, easily recognizable by its contemporary
+                    architectural design and spacious layout. The West Wing
+                    serves as a hub of academic activity and administrative
+                    functions, providing a range of facilities to support
+                    student learning, research, and campus operations.The West
+                    Wing also houses faculty offices, meeting rooms, and
+                    collaboration spaces where professors and researchers can
+                    engage in academic pursuits and mentor students.
+                </p>
+            </div>
+        </div>
+        <div class="content-container" id="EastWing-container">
+            <div class="content-header">
+                <i class="fa-solid fa-bookmark" id="EastWing"></i>
+                <i class="fa-regular fa-bookmark"></i>
+                <i class="fa-solid fa-x" id="closeBtn"></i>
+            </div>
+            <div class="main-content">
+                <img
+                    src="https://drive.google.com/thumbnail?id=1X1EPq7fDYRGq4lCC0y9XNrKIHlBBQRKx"
+                />
+                <h2>East Wing</h2>
+                <p>
+                    - Welcome to the East Wing of the main building at PUP, a
+                    hub of essential services are located. Here, you'll find the
+                    heart of the Corps of Cadets Headquarters, alongside Dental
+                    Clinic Services, the Department of Military Science and
+                    Tactics Office, and the HRD Records Office, all conveniently
+                    situated on the first floor. Ascend to the fourth floor to
+                    discover the Learning Resources Center that houses some
+                    artifacts relating to computer history such as early
+                    recording devices/media, parts of computers, and computer
+                    processors among others.
+                </p>
+            </div>
+        </div>
+        <div class="content-container" id="SouthWing-container">
+            <div class="content-header">
+                <i class="fa-solid fa-bookmark" id="SouthWing"></i>
+                <i class="fa-regular fa-bookmark"></i>
+                <i class="fa-solid fa-x" id="closeBtn"></i>
+            </div>
+            <div class="main-content">
+                <img
+                    src="https://drive.google.com/thumbnail?id=1TTcGWZJ3UL0iMKndXPi0lhcShrqLaJSy"
+                />
+                <h2>South Wing</h2>
+                <p>
+                    - The South Wing Academic Building complements the
+                    infrastructure of PUP's Main Academic Building, providing
+                    additional space for classrooms, laboratories, faculty
+                    offices, and student services. This extension enhances the
+                    capacity of the university to accommodate the growing needs
+                    of its academic community, ensuring a conducive environment
+                    for teaching and learning.
+                </p>
+            </div>
+        </div>
+        <div class="content-container" id="InterfaithChapel-container">
+            <div class="content-header">
+                <i class="fa-solid fa-bookmark" id="InterfaithChapel"></i>
+                <i class="fa-regular fa-bookmark"></i>
+                <i class="fa-solid fa-x" id="closeBtn"></i>
+            </div>
+            <div class="main-content">
+                <img
+                    src="https://drive.google.com/thumbnail?id=1kVRudTkI5_FnM7aGTEzxKsRDfvpa57tX"
+                />
+                <h2>Interfaith Chapel</h2>
+                <p>
+                    - The Interfaith Chapel at PUP is a place of worship and
+                    reflection where individuals from various religious
+                    backgrounds can come together to practice their faith,
+                    engage in spiritual activities, and find solace. It serves
+                    as a symbol of unity, diversity, and tolerance within the
+                    university community, promoting interfaith dialogue and
+                    understanding.
+                </p>
+            </div>
+        </div>
+        <div class="content-container" id="Nutrition-container">
+            <div class="content-header">
+                <i class="fa-solid fa-bookmark" id="Nutrition"></i>
+                <i class="fa-regular fa-bookmark"></i>
+                <i class="fa-solid fa-x" id="closeBtn"></i>
+            </div>
+            <div class="main-content">
+                <img
+                    src="https://drive.google.com/thumbnail?id=1kOeY0StQYt8Zpv3uFTZvItRSQ2fYGKPt"
+                />
+                <h2>Nutrition and Food Science Building</h2>
+                <p>
+                    - The College of Nutrition & Food Science Building houses
+                    the academic departments, laboratories, research facilities,
+                    and administrative offices related to nutrition, food
+                    science, and related disciplines. It provides students with
+                    state-of-the-art facilities for hands-on learning, research
+                    opportunities, and practical training in the field of food
+                    and nutrition.
+                </p>
+            </div>
+        </div>
+        <div class="content-container" id="Maintenance-container">
+            <div class="content-header">
+                <i class="fa-solid fa-bookmark" id="Maintenance"></i>
+                <i class="fa-regular fa-bookmark"></i>
+                <i class="fa-solid fa-x" id="closeBtn"></i>
+            </div>
+            <div class="main-content">
+                <img
+                    src="https://drive.google.com/thumbnail?id=1k7Qsjb6dtrfdBiQEOjYSLsWiiu_PdVYB"
+                />
+                <h2>Campus Development and Maintenance Building</h2>
+                <p>
+                    - The Campus Development & Maintenance Department Building
+                    serves as the administrative headquarters for overseeing the
+                    planning, construction, maintenance, and beautification of
+                    the PUP campus. It plays a crucial role in ensuring the
+                    infrastructure and facilities meet the needs of students,
+                    faculty, and staff, while also preserving the aesthetic
+                    appeal and functionality of the campus environment.
+                </p>
+            </div>
+        </div>
+        <div class="content-container" id="FerryStation-container">
+            <div class="content-header">
+                <i class="fa-solid fa-bookmark" id="FerryStation"></i>
+                <i class="fa-regular fa-bookmark"></i>
+                <i class="fa-solid fa-x" id="closeBtn"></i>
+            </div>
+            <div class="main-content">
+                <img
+                    src="https://drive.google.com/thumbnail?id=1k0BgHwnUhGBW9KiqDnW_t4X41ZYiY0a7"
+                />
+                <h2>PUP Sta. Mesa Ferry Station</h2>
+                <p>
+                    - The PUP Ferry Station provides transportation access for
+                    students, faculty, and staff commuting to and from the
+                    university via waterways. Located strategically along a
+                    river or coastline, the ferry station offers a convenient
+                    and efficient mode of transportation, particularly for those
+                    living in areas accessible by water routes.
+                </p>
+            </div>
+        </div>
+        <div class="content-container" id="MabiniShrine-container">
+            <div class="content-header">
+                <i class="fa-solid fa-bookmark" id="MabiniShrine"></i>
+                <i class="fa-regular fa-bookmark"></i>
+                <i class="fa-solid fa-x" id="closeBtn"></i>
+            </div>
+            <div class="main-content">
+                <img
+                    src="https://drive.google.com/thumbnail?id=18LOEs2B3vWgOnf419R23BazWlZmv7fmQ"
+                />
+                <h2>Apolinario Mabini Shrine</h2>
+                <p>
+                    - The fourth relocation site of the Mabini Shrine year 2010
+                    and is declared as its permanent home under the National
+                    Historical Institute. It features the things that are once
+                    owned by Apolinario Mabini and other memorabilia.
+                </p>
+            </div>
+        </div>
+        <div class="content-container" id="SouvenirShop-container">
+            <div class="content-header">
+                <i class="fa-solid fa-bookmark" id="SouvenirShop"></i>
+                <i class="fa-regular fa-bookmark"></i>
+                <i class="fa-solid fa-x" id="closeBtn"></i>
+            </div>
+            <div class="main-content">
+                <img
+                    src="https://drive.google.com/thumbnail?id=1hpMEWK4_t5myNpeJI5TK1HfwQH94w3i2"
+                />
+                <h2>Souvenir Shop</h2>
+                <p>
+                    - PUP Souvenir Shop (PSS) has an assortment of products
+                    ranging from hoodie jackets to shirts to baseball caps and
+                    notebooks, planners, lanyards, flash drive, pennants,
+                    toothbrush, combs, greeting cards, keychains, pillows,
+                    tissue containers, mugs, tumblers and many more — all at
+                    affordable prices.
+                </p>
+            </div>
+        </div>
+        <div class="content-container" id="Grandstand-container">
+            <div class="content-header">
+                <i class="fa-solid fa-bookmark" id="Grandstand"></i>
+                <i class="fa-regular fa-bookmark"></i>
+                <i class="fa-solid fa-x" id="closeBtn"></i>
+            </div>
+            <div class="main-content">
+                <img
+                    src="https://drive.google.com/thumbnail?id=15qr-DS2vDe1JHkc6lt2I8kKLOfcvD9K-"
+                />
+                <h2>Grandstand</h2>
+                <p>
+                    - A vast seating area located at the PUP oval. The
+                    grandstand is the focal point in most university events and
+                    contributes to the overall atmosphere of excitement and
+                    camaraderie within the campus space.
+                </p>
+            </div>
+        </div>
+        <div class="content-container" id="Oval-container">
+            <div class="content-header">
+                <i class="fa-solid fa-bookmark" id="Oval"></i>
+                <i class="fa-regular fa-bookmark"></i>
+                <i class="fa-solid fa-x" id="closeBtn"></i>
+            </div>
+            <div class="main-content">
+                <img
+                    src="https://drive.google.com/thumbnail?id=1KYJkENpflX6b0N2Vt9UcLiJHJZNlKCIY"
+                />
+                <h2>Track and Football Oval</h2>
+                <p>
+                    - The PUP Oval serves as a venue for jogging or casual
+                    strolls, as well as the training ground for football
+                    athletes. With its expansive area, it provides opportunities
+                    for individuals of diverse fitness levels to maintain an
+                    active and healthy lifestyle. Also, it serves as a site for
+                    hosting grand campus events and celebrations.
+                </p>
+            </div>
+        </div>
+        <div class="content-container" id="Lagoon-container">
+            <div class="content-header">
+                <i class="fa-solid fa-bookmark" id="Lagoon"></i>
+                <i class="fa-regular fa-bookmark"></i>
+                <i class="fa-solid fa-x" id="closeBtn"></i>
+            </div>
+            <div class="main-content">
+                <img
+                    src="https://drive.google.com/thumbnail?id=1m-bv4ipRlQYuN6b-5r7FdT00V7-zs7h0"
+                />
+                <h2>Lagoon</h2>
+                <p>
+                    - The Lagoon is a prominent feature within the PUP campus,
+                    often serving as a venue for various events, gatherings, and
+                    recreational activities. It provides a picturesque setting
+                    with its lush greenery, pathways, and water features,
+                    creating a relaxing environment for students, faculty, and
+                    visitors alike.
+                </p>
+            </div>
+        </div>
+        <div class="content-container" id="Obelisk-container">
+            <div class="content-header">
+                <i class="fa-solid fa-bookmark" id="Obelisk"></i>
+                <i class="fa-regular fa-bookmark"></i>
+                <i class="fa-solid fa-x" id="closeBtn"></i>
+            </div>
+            <div class="main-content">
+                <img
+                    src="https://drive.google.com/thumbnail?id=1JcW23ZOSAtBCWmPcuGTisxEkZIas9iKw"
+                />
+                <h2>PUP Obelisk</h2>
+                <p>
+                    - Long-standing at the core of the campus, it symbolizes the
+                    enduring strength of the Polytechnic University of the
+                    Philippines as a beacon of higher education, promoting
+                    educational and moral aims. Committed to the future, the
+                    obelisk stands as an emblem of strength and greatness,
+                    immutable against the passage of time.
+                </p>
+            </div>
+        </div>
+        <div class="content-container" id="BasketballTennis-container">
+            <div class="content-header">
+                <i class="fa-solid fa-bookmark" id="BasketballTennis"></i>
+                <i class="fa-regular fa-bookmark"></i>
+                <i class="fa-solid fa-x" id="closeBtn"></i>
+            </div>
+            <div class="main-content">
+                <img
+                    src="https://drive.google.com/thumbnail?id=1laLjpAjAEATdrv3SLfunucA-rGMkJlYV"
+                />
+                <h2>Outdoor Basketball/Volleyball and Tennis Court</h2>
+                <p>
+                    - The Outdoor Basketball and Volleyball court are Currently
+                    under construction. Envisioned to be an outdoor gym fit for
+                    basketball, tennis, and other Palarong Pambansa sports. PE
+                    classes will also be held in this school facility. While the
+                    Tennis court is a go-to destination for tennis at any skill
+                    level, where one can enjoy friendly matches or hone their
+                    skills in a welcoming environment designed for fun and
+                    fitness. This venue is tailored to accommodate Tennis PE
+                    classes as well, providing ample opportunities for both
+                    recreational play and skill development.
+                </p>
+            </div>
+        </div>
+        <div class="content-container" id="Pylon-container">
+            <div class="content-header">
+                <i class="fa-solid fa-bookmark" id="Pylon"></i>
+                <i class="fa-regular fa-bookmark"></i>
+                <i class="fa-solid fa-x" id="closeBtn"></i>
+            </div>
+            <div class="main-content">
+                <img
+                    src="https://drive.google.com/thumbnail?id=1nXvEYzqiHyeE7yQXAK-DZhqN9-VDWwQi"
+                />
+                <h2>Pylon</h2>
+                <p>
+                    - A triad of pillars symbolizing wisdom, strength, and
+                    beauty is upheld by the Polytechnic University of the
+                    Philippines. It advocates that there should be wisdom to
+                    contrive, strength to support, and beauty to adorn all
+                    significant endeavors.
+                </p>
+            </div>
+        </div>
+        <div class="content-container" id="Gymnasium-container">
+            <div class="content-header">
+                <i class="fa-solid fa-bookmark" id="Gymnasium"></i>
+                <i class="fa-regular fa-bookmark"></i>
+                <i class="fa-solid fa-x" id="closeBtn"></i>
+            </div>
+            <div class="main-content">
+                <img
+                    src="https://drive.google.com/thumbnail?id=1g5VcvAaZfy1FR0EMGXVOeZd_O7XbJpo5"
+                />
+                <h2>Gymnasium and Sports Center</h2>
+                <p>
+                    - University gymnasium that was rebranded as the PUP
+                    Multipurpose Building and Sports Development Facility. It
+                    caters commercial spaces, events, and sports activities and
+                    has the capacity to accommodate 2,000 people. It also serves
+                    as the training ground for the student athletes that
+                    participate in the intercollegiate sports program.
+                </p>
+            </div>
+        </div>
+        <div class="content-container" id="SwimmingPool-container">
+            <div class="content-header">
+                <i class="fa-solid fa-bookmark" id="SwimmingPool"></i>
+                <i class="fa-regular fa-bookmark"></i>
+                <i class="fa-solid fa-x" id="closeBtn"></i>
+            </div>
+            <div class="main-content">
+                <img
+                    src="https://drive.google.com/thumbnail?id=1lhRTAavdsY459I3LtEEmSIOrHfW-REI6"
+                />
+                <h2>Swimming Pool</h2>
+                <p>
+                    - An olympic-sized swimming pool that is only available here
+                    in the Mabini Campus of PUP. It is capable of handling
+                    several swimming classes and student athlete activities
+                    simultaneously, enhancing the campus’ sports and
+                    recreational offerings.
+                </p>
+            </div>
+        </div>
+        <div class="content-container" id="Alumni-container">
+            <div class="content-header">
+                <i class="fa-solid fa-bookmark" id="Alumni"></i>
+                <i class="fa-regular fa-bookmark"></i>
+                <i class="fa-solid fa-x" id="closeBtn"></i>
+            </div>
+            <div class="main-content">
+                <img
+                    src="https://drive.google.com/thumbnail?id=1gTf3zQoN5i5juFWs1JIGC8CoZEdlgs_f"
+                />
+                <h2>Tahanan ng Alumni</h2>
+                <p>
+                    - A place for PUP alumni to connect, network, and engage
+                    with the alma mater. It houses the resources and support for
+                    alumni activities, events, and initiatives. Additionally,
+                    the Alumni Grounds serves as a space where alumni gather for
+                    reunions and meetings.
+                </p>
+            </div>
+        </div>
+        <div class="content-container" id="PEBuilding-container">
+            <div class="content-header">
+                <i class="fa-solid fa-bookmark" id="PEBuilding"></i>
+                <i class="fa-regular fa-bookmark"></i>
+                <i class="fa-solid fa-x" id="closeBtn"></i>
+            </div>
+            <div class="main-content">
+                <img
+                    src="https://drive.google.com/thumbnail?id=1gZPDI7p_FKIx1bKaqB6ogPlO2CJYO2IL"
+                />
+                <h2>Physical Education Building</h2>
+                <p>
+                    - Facility dedicated to physical education classes. It
+                    houses the faculty offices, and various amenities such as
+                    the studios and equipment storage areas.
+                </p>
+            </div>
+        </div>
+        <div class="content-container" id="Library-container">
+            <div class="content-header">
+                <i class="fa-solid fa-bookmark" id="Library"></i>
+                <i class="fa-regular fa-bookmark"></i>
+                <i class="fa-solid fa-x" id="closeBtn"></i>
+            </div>
+            <div class="main-content">
+                <img
+                    src="https://drive.google.com/thumbnail?id=1mdH5-etEsi4A9WCCuuCj0_d74xY6Vehc"
+                />
+                <h2>Ninoy Aquino Library and Learning Resources Center</h2>
+                <p>
+                    - The Ninoy Aquino Learning Resource Center, located within
+                    the Polytechnic University of the Philippines (PUP), serves
+                    as a hub for educational resources, including books,
+                    journals, multimedia materials, and online databases. Named
+                    after the Filipino senator and democracy icon Benigno
+                    "Ninoy" Aquino Jr., it embodies a commitment to knowledge,
+                    learning, and the pursuit of academic excellence.
+                </p>
+            </div>
+        </div>
+        <div class="content-container" id="Amphitheater-container">
+            <div class="content-header">
+                <i class="fa-solid fa-bookmark" id="Amphitheater"></i>
+                <i class="fa-regular fa-bookmark"></i>
+                <i class="fa-solid fa-x" id="closeBtn"></i>
+            </div>
+            <div class="main-content">
+                <img
+                    src="https://drive.google.com/thumbnail?id=1iSBtLY7hp1LCY1Md9weCn6tgV_qizl13"
+                />
+                <h2>Amphitheater</h2>
+                <p>
+                    - The Amphitheater at PUP is a dynamic space designed for
+                    hosting performances, lectures, seminars, and other cultural
+                    events. Its open-air design allows for large audiences to
+                    gather comfortably while enjoying performances or engaging
+                    in academic discourse. The Amphitheater serves as a vibrant
+                    hub of artistic and intellectual exchange within the
+                    university community.
+                </p>
+            </div>
+        </div>
+        <div class="content-container" id="Highschool-container">
+            <div class="content-header">
+                <i class="fa-solid fa-bookmark" id="Highschool"></i>
+                <i class="fa-regular fa-bookmark"></i>
+                <i class="fa-solid fa-x" id="closeBtn"></i>
+            </div>
+            <div class="main-content">
+                <img
+                    src="https://drive.google.com/thumbnail?id=1BHOXH2-1NgkH5eJULMl8zk6lc6KV2afB"
+                />
+                <h2>Laboratory High School</h2>
+                <p>
+                    - The High School Prefabricated (Prefab) Building
+                    accommodates the academic needs of high school students
+                    enrolled in PUP's affiliated secondary education program.
+                    Constructed using prefabricated materials, it provides
+                    classrooms, laboratories, and facilities tailored to the
+                    educational requirements of secondary-level students,
+                    ensuring a conducive learning environment.
+                </p>
+            </div>
+        </div>
+        <div class="content-container" id="RosarioHall-container">
+            <div class="content-header">
+                <i class="fa-solid fa-bookmark" id="RosarioHall"></i>
+                <i class="fa-regular fa-bookmark"></i>
+                <i class="fa-solid fa-x" id="closeBtn"></i>
+            </div>
+            <div class="main-content">
+                <img
+                    src="https://drive.google.com/thumbnail?id=1iis4TnxsWS0Ygr1xZ03W_QGHhjGddNFb"
+                />
+                <h2>Charlie del Rosario Hall</h2>
+                <p>
+                    - The Charlie Del Rosario Hall serves as the center for
+                    student guidance and counseling services, named after an
+                    esteemed figure in the university's history, it offers
+                    various support services to students, including academic
+                    advising, career counseling, personal counseling, and
+                    guidance on student affairs and welfare.
+                </p>
+            </div>
+        </div>
+
+        <a-entity gltf-model="scene.gltf"></a-entity>
+
+        <script src="./sidebar.js" type="module"></script>
+        <script src="./main.js" type="module"></script>
+        <script src="./2dmap.js" type="module"></script>
+    </body>
+</html>
