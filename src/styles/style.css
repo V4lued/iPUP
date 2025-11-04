@@ -1,6 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
 
+/* ========== CSS Variables ========== */
 :root {
+    /* Light Mode Colors */
     --loader-background-color: #fff;
     --loader-text-color: #760c0c;
     --loader-ring-color: #760c0c;
@@ -20,25 +22,14 @@
     --content-icons-color: #760c0c;
     --content-text-color: #760c0c;
 }
-.dark-mode {
-    --loader-background-color: #4a4a4a;
-    --loader-text-color: #fff;
-    --loader-ring-color: #fff;
-    --sidebar-primary-color: #fff;
-    --sidebar-secondary-color: #2b2a2a;
-    --searchbox-primary-color: #2b2a2a;
-    --searchbox-secondary-color: #fff;
-    --searchbox-background-color: #4a4a4a;
-    --searchbox-hover-color: #666666;
-    --center-background-color: #2b2a2a;
-    --center-icon-color: #fff;
-    --favorites-background-color: #2b2a2a;
-    --favorites-hover-color: #fff;
-    --favorites-title-color: #fff;
-    --favorites-text-color: #2b2a2a;
-    --content-background-color: #2b2a2a;
-    --content-icons-color: #fff;
-    --content-text-color: #fff;
+
+/* ========== Global Styles ========== */
+html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
 }
 
 body {
@@ -48,8 +39,11 @@ body {
     overflow: hidden;
     font-family: "Rubik", sans-serif;
     transition: background-color 0.3s ease;
+    width: 100%;
+    height: 100%;
 }
 
+/* ========== Loader ========== */
 .loader {
     position: absolute;
     top: 0;
@@ -80,6 +74,26 @@ body {
     animation: ring 2s linear infinite;
 }
 
+.ring:before {
+    position: absolute;
+    content: "";
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+}
+
+.loader span {
+    position: absolute;
+    color: var(--loader-text-color);
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    animation: text 3s ease-in-out infinite;
+}
+
 @keyframes ring {
     0% {
         transform: rotate(0deg);
@@ -95,34 +109,13 @@ body {
     }
 }
 
-.loader span {
-    position: absolute;
-    color: var(--loader-text-color);
-    font-size: 20px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    animation: text 3s ease-in-out infinite; /* Apply the animation */
-}
-
 @keyframes text {
     50% {
-        color: var(
-            --loader-text-color
-        ); /* Change color at 50% of the animation */
+        color: var(--loader-text-color);
     }
 }
 
-.ring:before {
-    position: absolute;
-    content: "";
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 100%;
-    box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-}
-
+/* ========== Logo ========== */
 .pup_logo {
     width: 35px;
     height: 35px;
@@ -131,37 +124,40 @@ body {
     border-radius: 50px;
     padding: 6px;
 }
+
 .logo span {
     font-size: 22px;
     font-weight: 650;
     margin-left: 5px;
 }
+
+/* ========== Sidebar ========== */
 .sidebar {
     position: absolute;
     z-index: 99;
     top: 0;
     left: 0;
     height: 100vh;
-    width: 8vh; /* Initial width */
+    width: 8vh;
     background-color: var(--sidebar-secondary-color);
     padding: 0.4rem 0.8rem;
-    transition: width 0.3s ease, background-color 0.3s ease; /* Added transition property */
+    transition: width 0.3s ease, background-color 0.3s ease;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* Align items to the top */
-    align-items: flex-start; /* Align items to the left */
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 
 .sidebar.active {
-    width: 250px; /* Adjusted width */
+    width: 250px;
 }
 
 .sidebar #btn {
     position: absolute;
     color: var(--sidebar-primary-color);
     top: 0.4rem;
-    left: 50%; /* Center the button horizontally */
-    transform: translateX(-50%); /* Adjusted to center */
+    left: 50%;
+    transform: translateX(-50%);
     font-size: 2rem;
     line-height: 50px;
     cursor: pointer;
@@ -189,13 +185,13 @@ body {
 }
 
 .top .logo .pup_logo {
-    margin-right: 10px; /* Adjust the value as needed */
+    margin-right: 10px;
 }
 
 .sidebar ul {
-    flex-grow: 1; /* Fill remaining space */
-    padding: 0; /* Remove default padding */
-    margin: 1rem 0; /* Add margin to push the list items down */
+    flex-grow: 1;
+    padding: 0;
+    margin: 1rem 0;
 }
 
 .sidebar ul:last-child {
@@ -207,8 +203,8 @@ body {
     position: relative;
     list-style-type: none;
     height: 50px;
-    width: 90%; /* Adjusted width to account for margin */
-    margin: 0.8rem 0; /* Adjusted margin to move items to the left */
+    width: 90%;
+    margin: 0.8rem 0;
     line-height: 50px;
 }
 
@@ -226,15 +222,13 @@ body {
     height: 50px;
     border-radius: 12px;
     line-height: 50px;
-    font-size: 1.5rem; /* Adjust the font size as needed */
-    margin-right: 11px; /* Add margin to create space between icon and text */
+    font-size: 1.5rem;
+    margin-right: 11px;
 }
 
 .sidebar ul li a:hover i {
     background-color: var(--sidebar-primary-color);
-    color: var(
-        --sidebar-secondary-color
-    ); /* Change the text color to your desired color */
+    color: var(--sidebar-secondary-color);
 }
 
 .sidebar .nav-item {
@@ -246,6 +240,7 @@ body {
     display: block;
 }
 
+/* ========== Search Box ========== */
 .search-box {
     display: none;
     transition: opacity 0.3s ease, visibility 0.3s ease 0.3s;
@@ -259,9 +254,9 @@ body {
     top: 20px;
     left: 100px;
     box-sizing: border-box;
-    padding: 10px; /* Increased padding for better spacing */
+    padding: 10px;
     border-radius: 14px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Added a subtle box shadow */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     visibility: visible;
     opacity: 1;
     transition: opacity 0.5s ease, visibility 0.5s ease,
@@ -272,16 +267,16 @@ body {
 .row {
     display: flex;
     align-items: center;
-    padding: 0px; /* Adjusted vertical padding */
+    padding: 0px;
 }
 
 input {
     flex: 1;
-    height: 20px; /* Increased height */
+    height: 20px;
     background: transparent;
     border: 0;
     outline: 0;
-    font-size: 16px; /* Increased font size for better readability */
+    font-size: 16px;
     color: var(--searchbox-secondary-color);
 }
 
@@ -304,11 +299,11 @@ button .fa-solid {
 }
 
 .result-box {
-    max-height: 200px; /* Corrected max-height property */
-    overflow-y: auto; /* Enable scrolling */
-    -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
-    scrollbar-width: none; /* Hide scrollbar for Firefox */
-    scroll-behavior: smooth; /* Enable smooth scrolling */
+    max-height: 200px;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
 }
 
 .result-box::-webkit-scrollbar {
@@ -317,14 +312,14 @@ button .fa-solid {
 
 .result-box ul {
     border-top: 1px solid var(--searchbox-secondary-color);
-    padding: 5px 0; /* Adjusted vertical padding */
-    margin-top: 6px; /* Added margin for separation */
+    padding: 5px 0;
+    margin-top: 6px;
 }
 
 .result-box ul li {
     list-style: none;
     border-radius: 3px;
-    padding: 10px 0; /* Adjusted vertical padding */
+    padding: 10px 0;
     cursor: pointer;
     color: var(--searchbox-secondary-color);
 }
@@ -334,6 +329,7 @@ button .fa-solid {
     color: #fff;
 }
 
+/* ========== Tooltip ========== */
 .tooltip {
     background-color: var(--searchbox-primary-color);
     color: var(--searchbox-secondary-color);
@@ -357,25 +353,27 @@ button .fa-solid {
     transform: translateY(0px);
 }
 
+/* ========== Images ========== */
 img {
     height: 250px;
     width: 250px;
 }
 
+/* ========== Control Buttons ========== */
 .recenter {
     position: absolute;
     bottom: 2%;
     left: 7%;
     background-color: var(--center-background-color);
-    padding: 11px; /* Adjust as needed */
-    border-radius: 30%; /* Optional: makes the background circular */
+    padding: 11px;
+    border-radius: 30%;
     transition: width 0.3s ease, background-color 0.3s ease;
     cursor: pointer;
     z-index: 98;
 }
 
 .recenter i {
-    font-size: 2rem; /* Adjust as needed */
+    font-size: 2rem;
     color: var(--center-icon-color);
 }
 
@@ -399,21 +397,22 @@ img {
     position: absolute;
 }
 
+/* ========== Favorites Container ========== */
 .favorite-container {
     z-index: 5;
     position: absolute;
     top: 0;
     right: 0;
     height: 100vh;
-    width: 70vh; /* Initial width */
+    width: 70vh;
     background-color: var(--favorites-background-color);
     padding: 0.4rem 0.8rem;
     transition: transform 0.3s ease, opacity 0.3s ease,
-        background-color 0.3s ease; /* Use transform and opacity for smooth transition */
+        background-color 0.3s ease;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* Align items to the top */
-    align-items: flex-start; /* Align items to the left */
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 
 .favorite-container .top {
@@ -427,26 +426,27 @@ img {
 
 .favorite-container h1 {
     margin-top: 10px;
-    margin-left: 10px; /* Adjust the value as needed */
+    margin-left: 10px;
     color: var(--favorites-title-color);
 }
 
 .clear {
-    margin-left: auto; /* Align the button to the right */
-    margin-top: -47px; /* Adjust the top margin as needed */
+    margin-left: auto;
+    margin-top: -47px;
     cursor: pointer;
     font-size: 16px;
     font-weight: 700;
     color: var(--favorites-title-color);
 }
+
 .favorite-container ul {
-    flex-grow: 1; /* Fill remaining space */
-    padding: 0; /* Remove default padding */
-    margin: 1rem 0; /* Add margin to push the list items down */
-    overflow-y: auto; /* Enable scrolling */
-    -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
-    scrollbar-width: none; /* Hide scrollbar for Firefox */
-    scroll-behavior: smooth; /* Enable smooth scrolling */
+    flex-grow: 1;
+    padding: 0;
+    margin: 1rem 0;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
 }
 
 .favorite-container ul::-webkit-scrollbar {
@@ -461,38 +461,22 @@ img {
     position: relative;
     list-style-type: none;
     width: 70vh;
-    margin: 0.8rem 0; /* Adjusted margin to move items to the left */
+    margin: 0.8rem 0;
     line-height: 50px;
-    background-color: var(
-        --favorites-hover-color
-    ); /* Set background color directly on li */
-    border-radius: 0.8rem; /* Apply border-radius to li */
-    overflow: hidden; /* Hide overflowing content */
+    background-color: var(--favorites-hover-color);
+    border-radius: 0.8rem;
+    overflow: hidden;
     cursor: pointer;
 }
 
+/* ========== Content Container (Hidden - Using Toast Instead) ========== */
 .content-container {
-    z-index: 5;
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 100vh;
-    width: 70vh; /* Initial width */
-    background-color: var(--content-background-color);
-    padding: 0.4rem 0.8rem;
-    transition: transform 0.3s ease, opacity 0.3s ease,
-        background-color 0.3s ease; /* Use transform and opacity for smooth transition */
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start; /* Align items to the top */
-    align-items: flex-start; /* Align items to the left */
-    transform: translateX(100%); /* Initial translation */
-    opacity: 0; /* Initial opacity */
+    display: none !important;
 }
 
 .content-container.active {
-    transform: translateX(0); /* Move container into view */
-    opacity: 1; /* Set opacity to make the container visible */
+    transform: translateX(0);
+    opacity: 1;
 }
 
 .content-header {
@@ -500,37 +484,34 @@ img {
     top: 0;
     left: 0;
     width: 100%;
-    height: 50px; /* Adjust the height as needed */
-    background-color: var(
-        --content-background-color
-    ); /* Set the background color */
-    z-index: 1; /* Ensure it's above other content */
-    transition: background-color 0.3s ease;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(118, 12, 12, 0.08);
+    z-index: 1;
+    transition: all 0.3s ease;
 }
 
 .fa-solid.fa-bookmark {
     font-size: 24px;
-    /* Adjust left position to move it to the left */
-    left: 27px; /* Adjust the left position as needed */
+    left: 27px;
     position: absolute;
-    top: 15px; /* Adjust the top position as needed */
-    /* Adjust other styles as needed */
+    top: 15px;
     color: var(--content-icons-color);
     cursor: pointer;
-    z-index: 2; /* Ensure it's above other content */
+    z-index: 2;
     display: none;
 }
 
 .fa-regular.fa-bookmark {
     font-size: 24px;
-    /* Adjust left position to move it to the left */
-    left: 27px; /* Adjust the left position as needed */
+    left: 27px;
     position: absolute;
-    top: 15px; /* Adjust the top position as needed */
-    /* Adjust other styles as needed */
+    top: 15px;
     color: var(--content-icons-color);
     cursor: pointer;
-    z-index: 2; /* Ensure it's above other content */
+    z-index: 2;
 }
 
 .collapsed {
@@ -540,47 +521,43 @@ img {
 
 #closeBtn {
     position: absolute;
-    top: 15px; /* Adjust the top position as needed */
-    right: 27px; /* Adjust the right position as needed */
+    top: 15px;
+    right: 27px;
     font-size: 24px;
     color: var(--content-icons-color);
     cursor: pointer;
-    z-index: 2; /* Ensure it's above other content */
+    z-index: 2;
 }
 
 .content-container .main-content {
-    max-height: calc(102vh - 50px); /* Adjust for the header height */
-    overflow-y: auto; /* Enable scrolling */
-    -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
-    scrollbar-width: none; /* Hide scrollbar for Firefox */
-    scroll-behavior: smooth; /* Enable smooth scrolling */
+    max-height: calc(102vh - 50px);
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+    padding: 60px 15px 20px 15px;
 }
 
 .content-container .main-content::-webkit-scrollbar {
-    display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
-}
-
-.content-container .main-content img {
-    width: 66vh;
-    height: 45vh;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Adds a shadow */
-    margin: 50px 12px 0; /* 10px top margin, auto for centering horizontally, 0 for bottom margin */
-    transition: 0.3s ease;
+    display: none;
 }
 
 .content-container h2 {
     font-weight: 700;
-    margin-left: 15px;
-    margin-bottom: -4px;
-    color: var(--content-text-color);
+    margin: 0 0 15px 0;
+    color: #1a1a1a;
+    letter-spacing: -0.5px;
+    font-size: 1.5rem;
 }
 
 .content-container p {
-    font-weight: 500;
-    margin-left: 15px;
-    margin-right: 15px;
+    font-weight: 400;
+    margin: 0 0 15px 0;
     text-align: justify;
-    color: var(--content-text-color);
+    line-height: 1.7;
+    color: #4a4a4a;
+    letter-spacing: 0.1px;
+    font-size: 0.95rem;
 }
 
 .content-container.active {
@@ -588,22 +565,115 @@ img {
 }
 
 .content-container.collapsed {
-    transform: translateX(100%); /* Adjusted translation */
+    transform: translateX(100%);
 }
 
+/* ========== Prevent Text Selection ========== */
 .sidebar,
 .content-container,
 .favorite-container h1,
 .favorite-container ul {
-    user-select: none; /* Prevent text selection */
+    user-select: none;
 }
 
-#map {
+/* 2D Map removed per user request */
+
+/* ========== Landscape Orientation Warning ========== */
+.orientation-warning {
     display: none;
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 95%;
-    height: 100%;
-    z-index: 95;
+    position: fixed;
+    inset: -20px;
+    width: calc(100vw + 40px);
+    width: calc(100svw + 40px);
+    height: calc(100vh + 40px);
+    height: calc(100dvh + 40px);
+    min-width: calc(100vw + 40px);
+    min-height: calc(100vh + 40px);
+    min-height: calc(100dvh + 40px);
+    min-height: -webkit-fill-available;
+    background: #760c0c;
+    z-index: 999999;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.orientation-content {
+    text-align: center;
+    color: white;
+    padding: 40px 20px;
+    max-width: 90%;
+}
+
+.orientation-content i {
+    font-size: 80px;
+    margin-bottom: 20px;
+    animation: rotate-icon 2s ease-in-out infinite;
+    display: block;
+}
+
+.orientation-content h2 {
+    font-size: 28px;
+    margin-bottom: 15px;
+    font-weight: 700;
+    color: white;
+}
+
+.orientation-content p {
+    font-size: 16px;
+    opacity: 0.9;
+    color: white;
+}
+
+@keyframes rotate-icon {
+    0%, 100% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(90deg);
+    }
+}
+
+/* Show warning only on mobile devices in portrait mode */
+@media (max-width: 900px) and (orientation: portrait) {
+    .orientation-warning {
+        display: flex !important;
+    }
+    
+    html {
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        width: 100vw !important;
+        width: 100svw !important;
+        max-width: 100vw !important;
+        min-width: 100vw !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+    }
+    
+    body {
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        width: 100vw !important;
+        width: 100svw !important;
+        max-width: 100vw !important;
+        min-width: 100vw !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+    }
+    
+    * {
+        -webkit-tap-highlight-color: transparent;
+    }
 }

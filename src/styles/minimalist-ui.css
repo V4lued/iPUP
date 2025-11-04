@@ -1,0 +1,448 @@
+/* ========== Ultra Minimalist UI Design ========== */
+
+/* Hide all old UI elements */
+.sidebar,
+.search-box,
+.favorite-container,
+.recenter,
+.maps,
+.top-nav,
+.floating-search,
+.floating-favorites,
+.bottom-controls {
+    display: none !important;
+}
+
+/* ========== Minimalist Floating Action Button (Top Right) ========== */
+.minimalist-fab-container {
+    position: fixed;
+    top: 25px;
+    right: 25px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+}
+
+/* Animations removed */
+
+.fab-btn {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    background: rgba(118, 12, 12, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 12px rgba(118, 12, 12, 0.2),
+                0 1px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.fab-btn.active {
+    background: rgba(163, 20, 20, 0.95);
+    box-shadow: 0 4px 16px rgba(118, 12, 12, 0.35),
+                0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Tooltips disabled */
+.fab-btn::after {
+    display: none;
+}
+
+/* Search removed per user request */
+
+/* ========== App Credits / Trademark ========== */
+.app-credits {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 900;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'Rubik', sans-serif;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 8px 14px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.app-credits strong {
+    color: #fff;
+    font-weight: 600;
+}
+
+.app-credits i {
+    color: #ff6b6b;
+    font-size: 14px;
+    animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+    0%, 100% {
+        transform: scale(1);
+    }
+    10%, 30% {
+        transform: scale(1.1);
+    }
+    20%, 40% {
+        transform: scale(1);
+    }
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .app-credits {
+        bottom: 12px;
+        right: 12px;
+        font-size: 10px;
+        padding: 6px 10px;
+        gap: 4px;
+    }
+    
+    .app-credits i {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .app-credits {
+        bottom: 10px;
+        right: 10px;
+        font-size: 9px;
+        padding: 5px 8px;
+    }
+    
+    .app-credits i {
+        font-size: 11px;
+    }
+}
+
+/* ========== Bottom Controls Label ========== */
+.controls-label {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    padding: 12px 24px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 24px;
+    font-family: 'Rubik', sans-serif;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-radius: 100px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Show desktop controls by default, hide mobile */
+.controls-desktop {
+    display: flex;
+}
+
+.controls-mobile {
+    display: none;
+}
+
+.control-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: white;
+    font-weight: 500;
+}
+
+.control-item i {
+    color: white;
+    font-size: 15px;
+}
+
+.control-divider {
+    width: 1px;
+    height: 16px;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Minimal Bottom Info Toast */
+.info-toast {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 400px;
+    width: calc(100% - 40px);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    padding: 16px 20px;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15),
+                0 2px 12px rgba(118, 12, 12, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    z-index: 1001;
+    display: none;
+}
+
+.info-toast.active {
+    display: block;
+}
+
+.info-toast-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.info-toast-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #760c0c;
+    letter-spacing: -0.3px;
+    margin: 0;
+}
+
+.info-toast-close {
+    background: none;
+    border: none;
+    color: #999;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.info-toast-content {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #555;
+    max-height: 120px;
+    overflow-y: auto;
+}
+
+/* ========== Logo Branding (Top Left) ========== */
+.minimalist-logo {
+    position: fixed;
+    top: 25px;
+    left: 25px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    padding: 8px 18px;
+    border-radius: 50px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06),
+                0 1px 6px rgba(118, 12, 12, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.minimalist-logo img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+.minimalist-logo span {
+    color: #760c0c;
+    font-weight: 700;
+    font-size: 16px;
+    font-family: 'Rubik', sans-serif;
+    letter-spacing: -0.5px;
+}
+
+/* ========== Responsive Design ========== */
+@media (max-width: 768px) {
+    /* Hide desktop controls, show mobile controls */
+    .controls-desktop {
+        display: none !important;
+    }
+    
+    .controls-mobile {
+        display: flex !important;
+    }
+    
+    /* Logo - Top left, with text */
+    .minimalist-logo {
+        top: 12px;
+        left: 12px;
+        padding: 6px 12px;
+        min-width: auto;
+    }
+    
+    .minimalist-logo span {
+        display: inline;
+        font-size: 14px;
+    }
+    
+    .minimalist-logo img {
+        width: 26px;
+        height: 26px;
+    }
+    
+    /* FAB Buttons - Top right, smaller with proper spacing */
+    .minimalist-fab-container {
+        right: 12px;
+        top: 12px;
+        gap: 6px;
+    }
+    
+    .fab-btn {
+        width: 38px;
+        height: 38px;
+        font-size: 17px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(118, 12, 12, 0.18),
+                    0 1px 4px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Hide tooltips on mobile */
+    .fab-btn::after {
+        display: none;
+    }
+    
+
+    /* Info toast - Bottom center with more spacing */
+    .info-toast {
+        bottom: 75px;
+        max-width: calc(100% - 24px);
+        padding: 12px 16px;
+    }
+
+    .info-toast-title {
+        font-size: 14px;
+    }
+
+    .info-toast-content {
+        font-size: 12px;
+        max-height: 90px;
+    }
+    
+    /* Controls label - Bottom center, wider for mobile */
+    .controls-label {
+        bottom: 15px;
+        padding: 10px 20px;
+        gap: 16px;
+        background: rgba(0, 0, 0, 0.4);
+        font-size: 11px;
+        border-radius: 50px;
+        max-width: 90%;
+    }
+    
+    .control-item {
+        font-size: 11px;
+        gap: 6px;
+    }
+    
+    .control-item i {
+        font-size: 14px;
+    }
+    
+    .control-divider {
+        height: 13px;
+    }
+}
+
+/* ========== Small Mobile (max-width: 480px) ========== */
+@media (max-width: 480px) {
+    /* Logo and buttons even smaller */
+    .minimalist-logo {
+        top: 10px;
+        left: 10px;
+        padding: 5px 10px;
+    }
+    
+    .minimalist-logo span {
+        font-size: 13px;
+    }
+    
+    .minimalist-logo img {
+        width: 24px;
+        height: 24px;
+    }
+    
+    .minimalist-fab-container {
+        right: 10px;
+        top: 10px;
+        gap: 5px;
+    }
+    
+    .fab-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+    }
+    
+    /* Compact controls for small screens */
+    .controls-label {
+        bottom: 12px;
+        padding: 8px 16px;
+        gap: 12px;
+        font-size: 10px;
+        max-width: 92%;
+    }
+    
+    .control-item {
+        font-size: 10px;
+        gap: 5px;
+    }
+    
+    .control-item i {
+        font-size: 13px;
+    }
+    
+    .control-divider {
+        height: 12px;
+    }
+    
+}
+
+/* ========== Landscape Mode ========== */
+@media (max-width: 900px) and (orientation: landscape) {
+    .controls-label {
+        bottom: 12px;
+        padding: 8px 18px;
+        gap: 14px;
+        font-size: 10px;
+        max-width: 85%;
+    }
+    
+    .control-item {
+        font-size: 10px;
+        gap: 5px;
+    }
+    
+    .control-item i {
+        font-size: 13px;
+    }
+    
+    .info-toast {
+        bottom: 60px;
+        max-width: 450px;
+    }
+}
+
+

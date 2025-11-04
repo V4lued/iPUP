@@ -1,0 +1,477 @@
+/* ========== Mobile Responsive Styles ========== */
+
+/* ========== Media Queries ========== */
+
+/* Tablets and below (max-width: 1024px) */
+@media screen and (max-width: 1024px) {
+    /* Search Box */
+    .search-box.active {
+        width: calc(100% - 120px);
+        max-width: 400px;
+    }
+
+    /* Favorites Container */
+    .favorite-container {
+        width: 60vw;
+    }
+
+    .favorite-container ul li {
+        width: 100%;
+        font-size: 16px;
+    }
+
+    /* Content Container */
+    .content-container {
+        width: 50vw;
+        max-width: 400px;
+    }
+}
+
+/* Mobile devices (max-width: 768px) */
+@media screen and (max-width: 768px) {
+    /* Sidebar - Make it slide over content */
+    .sidebar {
+        width: 60px;
+        z-index: 100;
+    }
+
+    .sidebar.active {
+        width: 250px;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Search Box - Full width on mobile */
+    .search-box.active {
+        width: calc(100% - 80px);
+        max-width: none;
+        left: 70px;
+        top: 10px;
+        padding: 8px;
+    }
+
+    .row {
+        padding: 0;
+    }
+
+    input {
+        font-size: 14px;
+        height: 18px;
+    }
+
+    button .fa-solid {
+        font-size: 16px;
+    }
+
+    /* Control Buttons - Larger touch targets */
+    .recenter {
+        bottom: 15%;
+        left: 10px;
+        padding: 12px;
+        border-radius: 50%;
+    }
+
+    .recenter i {
+        font-size: 1.5rem;
+    }
+
+    .maps {
+        bottom: 25%;
+        left: 10px;
+        padding: 12px;
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 50%;
+    }
+
+    .maps i {
+        font-size: 1.5rem;
+    }
+
+    /* Favorites Container - Full width on mobile */
+    .favorite-container {
+        width: 100vw;
+        padding: 0.5rem;
+    }
+
+    .favorite-container h1 {
+        font-size: 1.5rem;
+        margin-top: 15px;
+    }
+
+    .clear {
+        font-size: 14px;
+        margin-top: -42px;
+    }
+
+    .favorite-container ul li {
+        width: 100%;
+        font-size: 16px;
+        line-height: 45px;
+        margin: 0.6rem 0;
+    }
+
+    /* Content Container - Bottom sheet on mobile */
+    .content-container {
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100vw;
+        height: 70vh;
+        max-height: 70vh;
+        border-radius: 20px 20px 0 0;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+        padding: 0.5rem;
+        transform: translateY(100%);
+    }
+
+    .content-container.active {
+        transform: translateY(0);
+    }
+
+    .content-container.collapsed {
+        transform: translateY(100%);
+    }
+
+    .content-header {
+        border-radius: 20px 20px 0 0;
+        height: 50px;
+    }
+
+    /* Add drag handle for bottom sheet */
+    .content-header::before {
+        content: '';
+        position: absolute;
+        top: 8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 40px;
+        height: 4px;
+        background-color: rgba(0, 0, 0, 0.2);
+        border-radius: 2px;
+    }
+
+    .content-container .main-content {
+        max-height: calc(70vh - 50px);
+        padding: 60px 12px 20px 12px;
+    }
+
+    .content-container h2 {
+        font-size: 1.3rem;
+    }
+
+    .content-container p {
+        font-size: 0.95rem;
+    }
+
+    /* Controls label position for mobile */
+    .controls-label {
+        bottom: 30px;
+        font-size: 10px;
+        gap: 12px;
+        padding: 8px 15px;
+    }
+
+    .control-item {
+        font-size: 10px;
+        gap: 4px;
+    }
+
+    .control-item i {
+        font-size: 13px;
+    }
+
+    .fa-solid.fa-bookmark,
+    .fa-regular.fa-bookmark {
+        font-size: 20px;
+        left: 15px;
+        top: 15px;
+    }
+
+    #closeBtn {
+        font-size: 20px;
+        right: 15px;
+        top: 15px;
+    }
+
+    /* 2D Map - Adjust for mobile */
+    #map {
+        width: 100%;
+    }
+
+    /* Tooltip */
+    .tooltip {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    /* Images */
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+/* Small mobile devices (max-width: 480px) */
+@media screen and (max-width: 480px) {
+    /* Sidebar */
+    .sidebar {
+        width: 50px;
+    }
+
+    .sidebar.active {
+        width: 220px;
+    }
+
+    .sidebar #btn {
+        font-size: 1.5rem;
+        margin-top: 15px;
+    }
+
+    .sidebar ul li {
+        margin: 0.6rem 0;
+        width: 95%;
+    }
+
+    .sidebar ul li a i {
+        font-size: 1.3rem;
+        min-width: 45px;
+    }
+
+    .logo span {
+        font-size: 18px;
+    }
+
+    .pup_logo {
+        width: 30px;
+        height: 30px;
+    }
+
+    /* Search Box - Even more compact */
+    .search-box.active {
+        width: calc(100% - 60px);
+        left: 55px;
+        top: 8px;
+        padding: 6px;
+    }
+
+    input {
+        font-size: 13px;
+        height: 16px;
+    }
+
+    ::placeholder {
+        font-size: 12px;
+    }
+
+    .result-box {
+        max-height: 150px;
+    }
+
+    .result-box ul li {
+        padding: 8px 0;
+        font-size: 13px;
+    }
+
+    /* Control Buttons - Adjust position */
+    .recenter {
+        bottom: 12%;
+        left: 8px;
+        padding: 10px;
+    }
+
+    .recenter i {
+        font-size: 1.3rem;
+    }
+
+    .maps {
+        bottom: 22%;
+        left: 8px;
+        padding: 10px;
+        width: 1.3rem;
+        height: 1.3rem;
+    }
+
+    .maps i {
+        font-size: 1.3rem;
+    }
+
+    /* Favorites Container */
+    .favorite-container h1 {
+        font-size: 1.3rem;
+        margin-top: 12px;
+    }
+
+    .clear {
+        font-size: 13px;
+        margin-top: -38px;
+    }
+
+    .favorite-container ul li {
+        font-size: 14px;
+        line-height: 40px;
+    }
+
+    /* Content Container */
+    .content-container h2 {
+        font-size: 1.1rem;
+    }
+
+    .content-container p {
+        font-size: 0.9rem;
+    }
+
+    /* Loader */
+    .ring {
+        width: 150px;
+        height: 150px;
+    }
+
+    .loader span {
+        font-size: 16px;
+    }
+}
+
+/* Extra small devices (max-width: 320px) */
+@media screen and (max-width: 320px) {
+    .sidebar {
+        width: 45px;
+    }
+
+    .sidebar.active {
+        width: 200px;
+    }
+
+    .search-box.active {
+        width: calc(100% - 55px);
+        left: 50px;
+    }
+
+    .favorite-container h1 {
+        font-size: 1.2rem;
+    }
+
+    .content-container h2 {
+        font-size: 1rem;
+    }
+
+    .content-container p {
+        font-size: 0.85rem;
+    }
+}
+
+/* ========== Touch-Friendly Enhancements ========== */
+
+/* Larger touch targets for mobile */
+@media (hover: none) and (pointer: coarse) {
+    /* Touch-friendly buttons */
+    .sidebar ul li a {
+        padding: 5px;
+    }
+
+    .sidebar ul li a i {
+        min-width: 50px;
+        height: 50px;
+        line-height: 50px;
+    }
+
+    /* Touch-friendly search results */
+    .result-box ul li {
+        padding: 12px 8px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+
+    /* Touch-friendly favorites */
+    .favorite-container ul li {
+        min-height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Touch-friendly control buttons */
+    .recenter,
+    .maps {
+        min-width: 44px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Touch-friendly close and bookmark buttons */
+    .fa-solid.fa-bookmark,
+    .fa-regular.fa-bookmark,
+    #closeBtn {
+        padding: 10px;
+        min-width: 44px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .clear {
+        padding: 8px 12px;
+        min-height: 36px;
+    }
+}
+
+/* ========== Landscape Orientation ========== */
+@media screen and (max-width: 768px) and (orientation: landscape) {
+    /* Adjust control buttons for landscape */
+    .recenter {
+        bottom: 5%;
+        left: 10px;
+    }
+
+    .maps {
+        bottom: 5%;
+        left: 70px;
+    }
+
+    /* Adjust containers */
+    .favorite-container,
+    .content-container {
+        width: 60vw;
+        max-width: 400px;
+    }
+}
+
+/* ========== Prevent Text Selection on Touch Devices ========== */
+@media (hover: none) {
+    .sidebar,
+    .content-container,
+    .favorite-container h1,
+    .favorite-container ul,
+    .recenter,
+    .maps {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+}
+
+/* ========== iOS Safe Area Support ========== */
+@supports (padding: max(0px)) {
+    .sidebar,
+    .search-box,
+    .favorite-container,
+    .content-container {
+        padding-top: max(0.4rem, env(safe-area-inset-top));
+        padding-bottom: max(0.4rem, env(safe-area-inset-bottom));
+        padding-left: max(0.4rem, env(safe-area-inset-left));
+        padding-right: max(0.4rem, env(safe-area-inset-right));
+    }
+
+    .recenter,
+    .maps {
+        bottom: max(2%, env(safe-area-inset-bottom));
+        left: max(10px, env(safe-area-inset-left));
+    }
+}
+

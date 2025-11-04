@@ -3,125 +3,165 @@
     <head>
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>iPUP</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="theme-color" content="#760c0c" />
+        <title>iPUP - Interactive Campus Map</title>
         <link rel="icon" type="image/png" href="public/iPUP_logo.png" />
-        <link rel="stylesheet" href="./style.css" />
-        <link
-            href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
-            rel="stylesheet"
-        />
-        <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
-        />
-        <link
-            rel="stylesheet"
-            href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-            integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-            crossorigin=""
-        />
-        <link
-            rel="stylesheet"
-            href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css"
-        />
-        <script
-            src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-            crossorigin=""
-        ></script>
-
+        <link rel="apple-touch-icon" href="public/iPUP_logo.png" />
+        
+        <!-- Stylesheets -->
+        <link rel="stylesheet" href="./src/styles/style.css?v=11" />
+        <link rel="stylesheet" href="./src/styles/responsive.css?v=11" />
+        <link rel="stylesheet" href="./src/styles/minimalist-ui.css?v=11" />
+        <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+        <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+        
+        <!-- Scripts -->
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
         <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
-        <script
-            src="https://kit.fontawesome.com/ba9652e19d.js"
-            crossorigin="anonymous"
-        ></script>
+        <script src="https://kit.fontawesome.com/ba9652e19d.js" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/smoothscroll-polyfill/dist/smoothscroll.min.js"></script>
+        
+        <!-- Three.js r128 CDN -->
+        <script src="https://unpkg.com/three@0.128.0/build/three.min.js"></script>
+        <script src="https://unpkg.com/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+        <script src="https://unpkg.com/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+        <script src="https://unpkg.com/three@0.128.0/examples/js/renderers/CSS2DRenderer.js"></script>
+        <script>
+            // Attach loaders and renderers to THREE namespace
+            if (typeof GLTFLoader !== 'undefined') {
+                THREE.GLTFLoader = GLTFLoader;
+            }
+            if (typeof OrbitControls !== 'undefined') {
+                THREE.OrbitControls = OrbitControls;
+            }
+            if (typeof CSS2DRenderer !== 'undefined') {
+                THREE.CSS2DRenderer = CSS2DRenderer;
+            }
+            if (typeof CSS2DObject !== 'undefined') {
+                THREE.CSS2DObject = CSS2DObject;
+            }
+            
+            // MapControls extends OrbitControls using ES6 class syntax
+            THREE.MapControls = class MapControls extends THREE.OrbitControls {
+                constructor(object, domElement) {
+                    super(object, domElement);
+                    
+                    // MapControls specific settings
+                    this.screenSpacePanning = false;
+                    this.mouseButtons = { 
+                        LEFT: THREE.MOUSE.PAN, 
+                        MIDDLE: THREE.MOUSE.DOLLY, 
+                        RIGHT: THREE.MOUSE.ROTATE 
+                    };
+                    this.touches = { 
+                        ONE: THREE.TOUCH.PAN, 
+                        TWO: THREE.TOUCH.DOLLY_ROTATE 
+                    };
+                }
+            };
+        </script>
+        
+        <!-- GSAP CDN -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     </head>
 
     <body>
+        <!-- Loading Screen -->
         <div class="loader">
             <div class="ring"></div>
             <span>loading...</span>
         </div>
 
-        <div class="sidebar">
-            <div class="top">
-                <div class="logo">
-                    <img
-                        src="./public/iPUP_logo.png"
-                        alt="PUP Logo"
-                        class="pup_logo"
-                    />
-                    <span>iPUP</span>
-                </div>
-                <i class="bx bx-menu" id="btn"></i>
+        <!-- Landscape Orientation Warning (Mobile Only) -->
+        <div class="orientation-warning">
+            <div class="orientation-content">
+                <i class="bx bx-rotate-right"></i>
+                <h2>Rotate Your Device</h2>
+                <p>Please rotate your device to landscape mode for the best experience.</p>
             </div>
-            <ul>
-                <li>
-                    <a href="#">
-                        <i class="bx bxs-home"></i>
-                        <span class="nav-item">Home</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" id="searchbtn">
-                        <i class="bx bx-search"></i>
-                        <span class="nav-item">Search</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" id="bookmarkbtn">
-                        <i class="bx bxs-bookmarks"></i>
-                        <span class="nav-item">Favorites</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" id="aboutusbtn">
-                        <i class="fa-regular fa-circle-question"></i>
-                        <span class="nav-item">About Us</span>
-                    </a>
-                </li>
-            </ul>
-            <ul>
-                <li id="dark-mode-btn">
-                    <a href="#" id="dark-mode-toggle">
-                        <i class="fa-solid fa-circle-half-stroke"></i>
-                        <span class="nav-item">Light/Dark Mode</span>
-                    </a>
-                </li>
-            </ul>
         </div>
-        <div class="search-box">
-            <div class="row">
-                <input
-                    type="text"
-                    id="input-box"
-                    placeholder="Search anything ..."
-                    autocomplete="off"
-                />
-                <button><i class="fa-solid fa-magnifying-glass"></i></button>
+
+        <!-- Minimalist Logo Branding -->
+        <div class="minimalist-logo">
+            <img src="./public/iPUP_logo.png" alt="PUP Logo" />
+            <span>iPUP</span>
+        </div>
+
+
+        <!-- Minimal Bottom Info Toast -->
+        <div class="info-toast" id="infoToast">
+            <div class="info-toast-header">
+                <h3 class="info-toast-title" id="infoToastTitle">Location Name</h3>
+                <button class="info-toast-close" id="infoToastClose">
+                    <i class="bx bx-x"></i>
+                </button>
             </div>
-            <div class="result-box"></div>
+            <div class="info-toast-content" id="infoToastContent">
+                Location description will appear here...
+            </div>
         </div>
 
-        <div class="recenter" id="recenterButton">
-            <i class="fa-solid fa-location-crosshairs"></i>
+        <!-- Minimalist FAB Buttons (Top Right) -->
+        <div class="minimalist-fab-container">
+            <button class="fab-btn" id="recenterButton" data-tooltip="Recenter">
+                <i class="bx bx-crosshair"></i>
+            </button>
         </div>
 
-        <div class="maps" id="mapToggle">
-            <i class="fa-regular fa-map" id="regular-map"></i>
-            <i class="fa-solid fa-map" id="two-dim" style="display: none"></i>
+        <!-- Map Controls Instructions - Desktop -->
+        <div class="controls-label controls-desktop">
+            <div class="control-item">
+                <i class="bx bx-mouse"></i>
+                <span>Left click to move</span>
+            </div>
+            <div class="control-divider"></div>
+            <div class="control-item">
+                <i class="bx bx-mouse"></i>
+                <span>Right click to rotate</span>
+            </div>
+            <div class="control-divider"></div>
+            <div class="control-item">
+                <i class="bx bx-mouse-alt"></i>
+                <span>Scroll to zoom</span>
+            </div>
+            <div class="control-divider"></div>
+            <div class="control-item">
+                <i class="bx bx-pointer"></i>
+                <span>Click circles for info</span>
+            </div>
         </div>
 
-        <div class="favorite-container">
-            <h1>Favorites</h1>
-            <button class="clear">Clear all</button>
-            <ul id="favoritesList"></ul>
+        <!-- Map Controls Instructions - Mobile -->
+        <div class="controls-label controls-mobile">
+            <div class="control-item">
+                <i class="bx bx-move"></i>
+                <span>One finger to move</span>
+            </div>
+            <div class="control-divider"></div>
+            <div class="control-item">
+                <i class="bx bx-compass"></i>
+                <span>Two fingers to rotate & zoom</span>
+            </div>
+            <div class="control-divider"></div>
+            <div class="control-item">
+                <i class="bx bx-pointer"></i>
+                <span>Tap circles for info</span>
+            </div>
         </div>
 
-        <div id="map"></div>
+        <!-- Credits / Trademark -->
+        <div class="app-credits">
+            <span>Made by</span>
+            <span><strong>Cyrus Severino</strong></span>
+        </div>
 
+        <!-- Location Information Containers -->
         <div class="content-container" id="NorthWing-container">
             <div class="content-header">
                 <i class="fa-solid fa-bookmark" id="NorthWing"></i>
@@ -129,9 +169,6 @@
                 <i class="fa-solid fa-x" id="closeBtn"></i>
             </div>
             <div class="main-content">
-                <img
-                    src="https://drive.google.com/thumbnail?id=1MpwqCqHBCY6KUq1KAsK6sjokNSw6AGq_"
-                />
                 <h2>North Wing</h2>
                 <p>
                     - Currently under development, the North Wing of PUP Main
@@ -151,9 +188,6 @@
                 <i class="fa-solid fa-x" id="closeBtn"></i>
             </div>
             <div class="main-content">
-                <img
-                    src="https://drive.google.com/thumbnail?id=1zdrcMtZI47b8-LNaNkMx9AMDxi3QW4T_"
-                />
                 <h2>West Wing</h2>
                 <p>
                     - The PUP West Wing is a modern building located on the
@@ -176,9 +210,6 @@
                 <i class="fa-solid fa-x" id="closeBtn"></i>
             </div>
             <div class="main-content">
-                <img
-                    src="https://drive.google.com/thumbnail?id=1X1EPq7fDYRGq4lCC0y9XNrKIHlBBQRKx"
-                />
                 <h2>East Wing</h2>
                 <p>
                     - Welcome to the East Wing of the main building at PUP, a
@@ -201,9 +232,6 @@
                 <i class="fa-solid fa-x" id="closeBtn"></i>
             </div>
             <div class="main-content">
-                <img
-                    src="https://drive.google.com/thumbnail?id=1TTcGWZJ3UL0iMKndXPi0lhcShrqLaJSy"
-                />
                 <h2>South Wing</h2>
                 <p>
                     - The South Wing Academic Building complements the
@@ -223,9 +251,6 @@
                 <i class="fa-solid fa-x" id="closeBtn"></i>
             </div>
             <div class="main-content">
-                <img
-                    src="https://drive.google.com/thumbnail?id=1kVRudTkI5_FnM7aGTEzxKsRDfvpa57tX"
-                />
                 <h2>Interfaith Chapel</h2>
                 <p>
                     - The Interfaith Chapel at PUP is a place of worship and
@@ -245,9 +270,6 @@
                 <i class="fa-solid fa-x" id="closeBtn"></i>
             </div>
             <div class="main-content">
-                <img
-                    src="https://drive.google.com/thumbnail?id=1kOeY0StQYt8Zpv3uFTZvItRSQ2fYGKPt"
-                />
                 <h2>Nutrition and Food Science Building</h2>
                 <p>
                     - The College of Nutrition & Food Science Building houses
@@ -267,9 +289,6 @@
                 <i class="fa-solid fa-x" id="closeBtn"></i>
             </div>
             <div class="main-content">
-                <img
-                    src="https://drive.google.com/thumbnail?id=1k7Qsjb6dtrfdBiQEOjYSLsWiiu_PdVYB"
-                />
                 <h2>Campus Development and Maintenance Building</h2>
                 <p>
                     - The Campus Development & Maintenance Department Building
@@ -289,9 +308,6 @@
                 <i class="fa-solid fa-x" id="closeBtn"></i>
             </div>
             <div class="main-content">
-                <img
-                    src="https://drive.google.com/thumbnail?id=1k0BgHwnUhGBW9KiqDnW_t4X41ZYiY0a7"
-                />
                 <h2>PUP Sta. Mesa Ferry Station</h2>
                 <p>
                     - The PUP Ferry Station provides transportation access for
@@ -310,9 +326,6 @@
                 <i class="fa-solid fa-x" id="closeBtn"></i>
             </div>
             <div class="main-content">
-                <img
-                    src="https://drive.google.com/thumbnail?id=18LOEs2B3vWgOnf419R23BazWlZmv7fmQ"
-                />
                 <h2>Apolinario Mabini Shrine</h2>
                 <p>
                     - The fourth relocation site of the Mabini Shrine year 2010
@@ -329,9 +342,6 @@
                 <i class="fa-solid fa-x" id="closeBtn"></i>
             </div>
             <div class="main-content">
-                <img
-                    src="https://drive.google.com/thumbnail?id=1hpMEWK4_t5myNpeJI5TK1HfwQH94w3i2"
-                />
                 <h2>Souvenir Shop</h2>
                 <p>
                     - PUP Souvenir Shop (PSS) has an assortment of products
@@ -350,9 +360,6 @@
                 <i class="fa-solid fa-x" id="closeBtn"></i>
             </div>
             <div class="main-content">
-                <img
-                    src="https://drive.google.com/thumbnail?id=15qr-DS2vDe1JHkc6lt2I8kKLOfcvD9K-"
-                />
                 <h2>Grandstand</h2>
                 <p>
                     - A vast seating area located at the PUP oval. The
@@ -369,9 +376,6 @@
                 <i class="fa-solid fa-x" id="closeBtn"></i>
             </div>
             <div class="main-content">
-                <img
-                    src="https://drive.google.com/thumbnail?id=1KYJkENpflX6b0N2Vt9UcLiJHJZNlKCIY"
-                />
                 <h2>Track and Football Oval</h2>
                 <p>
                     - The PUP Oval serves as a venue for jogging or casual
@@ -390,9 +394,6 @@
                 <i class="fa-solid fa-x" id="closeBtn"></i>
             </div>
             <div class="main-content">
-                <img
-                    src="https://drive.google.com/thumbnail?id=1m-bv4ipRlQYuN6b-5r7FdT00V7-zs7h0"
-                />
                 <h2>Lagoon</h2>
                 <p>
                     - The Lagoon is a prominent feature within the PUP campus,
@@ -411,9 +412,6 @@
                 <i class="fa-solid fa-x" id="closeBtn"></i>
             </div>
             <div class="main-content">
-                <img
-                    src="https://drive.google.com/thumbnail?id=1JcW23ZOSAtBCWmPcuGTisxEkZIas9iKw"
-                />
                 <h2>PUP Obelisk</h2>
                 <p>
                     - Long-standing at the core of the campus, it symbolizes the
@@ -432,9 +430,6 @@
                 <i class="fa-solid fa-x" id="closeBtn"></i>
             </div>
             <div class="main-content">
-                <img
-                    src="https://drive.google.com/thumbnail?id=1laLjpAjAEATdrv3SLfunucA-rGMkJlYV"
-                />
                 <h2>Outdoor Basketball/Volleyball and Tennis Court</h2>
                 <p>
                     - The Outdoor Basketball and Volleyball court are Currently
@@ -457,9 +452,6 @@
                 <i class="fa-solid fa-x" id="closeBtn"></i>
             </div>
             <div class="main-content">
-                <img
-                    src="https://drive.google.com/thumbnail?id=1nXvEYzqiHyeE7yQXAK-DZhqN9-VDWwQi"
-                />
                 <h2>Pylon</h2>
                 <p>
                     - A triad of pillars symbolizing wisdom, strength, and
@@ -477,9 +469,6 @@
                 <i class="fa-solid fa-x" id="closeBtn"></i>
             </div>
             <div class="main-content">
-                <img
-                    src="https://drive.google.com/thumbnail?id=1g5VcvAaZfy1FR0EMGXVOeZd_O7XbJpo5"
-                />
                 <h2>Gymnasium and Sports Center</h2>
                 <p>
                     - University gymnasium that was rebranded as the PUP
@@ -498,9 +487,6 @@
                 <i class="fa-solid fa-x" id="closeBtn"></i>
             </div>
             <div class="main-content">
-                <img
-                    src="https://drive.google.com/thumbnail?id=1lhRTAavdsY459I3LtEEmSIOrHfW-REI6"
-                />
                 <h2>Swimming Pool</h2>
                 <p>
                     - An olympic-sized swimming pool that is only available here
@@ -518,9 +504,6 @@
                 <i class="fa-solid fa-x" id="closeBtn"></i>
             </div>
             <div class="main-content">
-                <img
-                    src="https://drive.google.com/thumbnail?id=1gTf3zQoN5i5juFWs1JIGC8CoZEdlgs_f"
-                />
                 <h2>Tahanan ng Alumni</h2>
                 <p>
                     - A place for PUP alumni to connect, network, and engage
@@ -538,9 +521,6 @@
                 <i class="fa-solid fa-x" id="closeBtn"></i>
             </div>
             <div class="main-content">
-                <img
-                    src="https://drive.google.com/thumbnail?id=1gZPDI7p_FKIx1bKaqB6ogPlO2CJYO2IL"
-                />
                 <h2>Physical Education Building</h2>
                 <p>
                     - Facility dedicated to physical education classes. It
@@ -556,9 +536,6 @@
                 <i class="fa-solid fa-x" id="closeBtn"></i>
             </div>
             <div class="main-content">
-                <img
-                    src="https://drive.google.com/thumbnail?id=1mdH5-etEsi4A9WCCuuCj0_d74xY6Vehc"
-                />
                 <h2>Ninoy Aquino Library and Learning Resources Center</h2>
                 <p>
                     - The Ninoy Aquino Learning Resource Center, located within
@@ -578,9 +555,6 @@
                 <i class="fa-solid fa-x" id="closeBtn"></i>
             </div>
             <div class="main-content">
-                <img
-                    src="https://drive.google.com/thumbnail?id=1iSBtLY7hp1LCY1Md9weCn6tgV_qizl13"
-                />
                 <h2>Amphitheater</h2>
                 <p>
                     - The Amphitheater at PUP is a dynamic space designed for
@@ -600,9 +574,6 @@
                 <i class="fa-solid fa-x" id="closeBtn"></i>
             </div>
             <div class="main-content">
-                <img
-                    src="https://drive.google.com/thumbnail?id=1BHOXH2-1NgkH5eJULMl8zk6lc6KV2afB"
-                />
                 <h2>Laboratory High School</h2>
                 <p>
                     - The High School Prefabricated (Prefab) Building
@@ -622,9 +593,6 @@
                 <i class="fa-solid fa-x" id="closeBtn"></i>
             </div>
             <div class="main-content">
-                <img
-                    src="https://drive.google.com/thumbnail?id=1iis4TnxsWS0Ygr1xZ03W_QGHhjGddNFb"
-                />
                 <h2>Charlie del Rosario Hall</h2>
                 <p>
                     - The Charlie Del Rosario Hall serves as the center for
@@ -637,10 +605,17 @@
             </div>
         </div>
 
+        <!-- 3D Model -->
         <a-entity gltf-model="scene.gltf"></a-entity>
 
-        <script src="./sidebar.js" type="module"></script>
-        <script src="./main.js" type="module"></script>
-        <script src="./2dmap.js" type="module"></script>
+        <!-- Application Scripts - Load in order -->
+        <script src="./src/js/config/constants.js?v=10"></script>
+        <script src="./src/js/config/locations.js?v=10"></script>
+        <script src="./src/js/utils/helpers.js?v=10"></script>
+        <script src="./src/js/utils/animations.js?v=10"></script>
+        <script src="./src/js/utils/touchHandler.js?v=10"></script>
+        <script src="./src/js/scene.js?v=10"></script>
+        <script src="./src/js/ui.js?v=10"></script>
+        <script src="./src/js/app.js?v=10"></script>
     </body>
 </html>
